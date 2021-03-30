@@ -20,7 +20,7 @@ const MyApp = (props: AppProps) => {
     return (
         <React.Fragment>
             <Head>
-                <title>New Office Ceremony 2021</title>
+                <title>Cocone New Office Ceremony</title>
 
                 <meta
                     name="viewport"
