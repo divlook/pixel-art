@@ -7,7 +7,7 @@ import { asset } from '~/libs/utils'
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        height: '100vh',
+        minHeight: '100vh',
         justifyContent: 'center',
         alignItems: 'center',
         '&::before': {
