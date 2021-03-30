@@ -2,8 +2,7 @@ import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 import theme from '~/libs/theme'
-
-const ASSET_PREFIX = process.env.ASSET_PREFIX
+import { asset } from '~/libs/utils'
 
 export default class MyDocument extends Document {
 
@@ -16,7 +15,7 @@ export default class MyDocument extends Document {
                         content={theme.palette.primary.main}
                     />
 
-                    <link rel="icon" href={`${ASSET_PREFIX}/favicon.ico`} />
+                    <link rel="icon" href={asset('/favicon.ico')} />
 
                     <link
                         rel="stylesheet"

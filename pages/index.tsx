@@ -2,8 +2,7 @@ import { NextPage } from 'next'
 import { Container, makeStyles, Paper } from '@material-ui/core'
 import { useEffect, useRef } from 'react'
 import { Ceremony } from '~/libs/ceremony'
-
-const ASSET_PREFIX = process.env.ASSET_PREFIX
+import { asset } from '~/libs/utils'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +40,7 @@ const HomePage: NextPage = () => {
 
             ceremonyRef.current = new Ceremony({
                 canvas: canvasRef.current,
-                imgUrl: `${ASSET_PREFIX}/img/iu.jpg`,
+                imgUrl: asset('/img/iu.jpg'),
             })
 
             await ceremonyRef.current.init()
