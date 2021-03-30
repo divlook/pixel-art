@@ -1,0 +1,7 @@
+{
+    "tabWidth": 4,
+    "arrowParens": "always",
+    "semi": false,
+    "trailingComma": "es5",
+    "singleQuote": true
+}
