@@ -10,6 +10,20 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         justifyContent: 'center',
         alignItems: 'center',
+        '&::before': {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `url(${asset('/img/iu.jpg')})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(50px)',
+            transform: 'scale(1.5)',
+            zIndex: -1,
+            content: '""',
+        }
     },
     container: {
         padding: theme.spacing(2),
