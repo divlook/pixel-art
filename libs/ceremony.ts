@@ -4,6 +4,7 @@ export interface CeremonyOptions {
     minSize?: number
     maxSize?: number
     intervalMs?: number
+    shape?: Shape
 }
 
 export interface InitializeCallback {
@@ -15,6 +16,8 @@ export interface Coord {
     y: number
 }
 
+export type Shape =  'circle' | 'square'
+
 export type RGBA = [number, number, number, number]
 
 export class Ceremony {
@@ -23,6 +26,7 @@ export class Ceremony {
     minSize!: number
     maxSize!: number
     intervalMs!: number
+    shape!: Shape
 
     #shadowCanvas!: HTMLCanvasElement
     #shadowCtx!: CanvasRenderingContext2D
@@ -40,6 +44,8 @@ export class Ceremony {
         this.minSize = options.minSize ?? 10
         this.maxSize = options.maxSize ?? 20
         this.intervalMs = options.intervalMs ?? 10
+        this.shape = options.shape ?? 'square'
+
         this.#shadowCanvas = document.createElement('canvas')
     }
 
@@ -139,7 +145,11 @@ export class Ceremony {
                 this.#ctx.shadowColor = `rgba(${rgba.join(',')})`
                 this.#ctx.fillStyle = `rgba(${rgba.slice(0, 3).join(',')}, 0.2)`
                 this.#ctx.beginPath()
-                this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
+                if (this.shape === 'circle') {
+                    this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
+                } else {
+                    this.#ctx.rect(x - radius, y - radius, diameter, diameter)
+                }
                 this.#ctx.fill()
 
                 resolve()
