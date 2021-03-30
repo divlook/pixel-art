@@ -1,4 +1,4 @@
-const ASSET_PREFIX = process.env.ASSET_PREFIX ?? '/'
+const ASSET_PREFIX = process.env.ASSET_PREFIX || '/'
 
 module.exports = {
     env: {
