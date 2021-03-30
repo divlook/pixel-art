@@ -3,7 +3,10 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 import theme from '~/libs/theme'
 
+const ASSET_PREFIX = process.env.ASSET_PREFIX
+
 export default class MyDocument extends Document {
+
     render() {
         return (
             <Html lang="en">
@@ -13,7 +16,7 @@ export default class MyDocument extends Document {
                         content={theme.palette.primary.main}
                     />
 
-                    <link rel="icon" href="/favicon.ico" />
+                    <link rel="icon" href={`${ASSET_PREFIX}/favicon.ico`} />
 
                     <link
                         rel="stylesheet"

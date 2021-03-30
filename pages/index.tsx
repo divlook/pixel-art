@@ -3,6 +3,8 @@ import { Container, makeStyles, Paper } from '@material-ui/core'
 import { useEffect, useRef } from 'react'
 import { Ceremony } from '~/libs/ceremony'
 
+const ASSET_PREFIX = process.env.ASSET_PREFIX
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -39,7 +41,7 @@ const HomePage: NextPage = () => {
 
             ceremonyRef.current = new Ceremony({
                 canvas: canvasRef.current,
-                imgUrl: '/img/iu.jpg',
+                imgUrl: `${ASSET_PREFIX}/img/iu.jpg`,
             })
 
             await ceremonyRef.current.init()
