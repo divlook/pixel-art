@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "npm run export",
+    "export": "next export -o dist",
     "start": "next start"
   },
   "dependencies": {
