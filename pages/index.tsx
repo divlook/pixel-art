@@ -1,5 +1,7 @@
 import { NextPage } from 'next'
-import { Container, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Container, makeStyles, Paper } from '@material-ui/core'
+import { useEffect, useRef } from 'react'
+import { Ceremony } from '~/libs/ceremony'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         textAlign: 'center',
     },
-    image: {
+    canvas: {
         display: 'block',
         width: '100%',
     },
@@ -26,21 +28,31 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage: NextPage = () => {
     const classes = useStyles()
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const ceremonyRef = useRef<Ceremony>()
+
+    useEffect(() => {
+        ;(async () => {
+            if (!canvasRef.current) {
+                return
+            }
+
+            ceremonyRef.current = new Ceremony({
+                canvas: canvasRef.current,
+                imgUrl: '/img/iu.jpg',
+            })
+
+            await ceremonyRef.current.init()
+            await ceremonyRef.current.startAnimation()
+        })()
+    }, [])
 
     return (
         <>
             <main className={classes.root}>
                 <Container className={classes.container} maxWidth="lg">
-                    <Paper className={classes.paper} elevation={10}>
-                        <Typography className={classes.typography} variant="h1">
-                            Welcome to new office
-                        </Typography>
-
-                        <img
-                            className={classes.image}
-                            src="/img/iu.jpg"
-                            alt="IU"
-                        />
+                    <Paper className={classes.paper} elevation={16}>
+                        <canvas ref={canvasRef} className={classes.canvas} />
                     </Paper>
                 </Container>
             </main>
