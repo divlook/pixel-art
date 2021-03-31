@@ -6,6 +6,7 @@ export interface CeremonyOptions {
     intervalMs?: number
     initialDrawCount?: number
     shape?: Shape
+    type?: ArtType
 }
 
 export type VoidCallback = () => void
@@ -26,6 +27,8 @@ export interface Hook {
 
 export type HookType = 'initialize' | 'beforeDraw' | 'afterDraw'
 
+export type ArtType = 'pointillism'
+
 export class Ceremony {
     canvas!: HTMLCanvasElement
     imgUrl!: string
@@ -34,6 +37,7 @@ export class Ceremony {
     intervalMs!: number
     initialDrawCount!: number
     shape!: Shape
+    type!: ArtType
 
     #shadowCanvas!: HTMLCanvasElement
     #shadowCtx!: CanvasRenderingContext2D
@@ -59,6 +63,7 @@ export class Ceremony {
         this.intervalMs = options.intervalMs ?? 10
         this.initialDrawCount = options.initialDrawCount ?? 0
         this.shape = options.shape ?? 'square'
+        this.type = options.type ?? 'pointillism'
 
         this.#shadowCanvas = document.createElement('canvas')
     }
