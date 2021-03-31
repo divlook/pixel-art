@@ -1,4 +1,4 @@
-export interface CeremonyOptions {
+export interface PixelArtOptions {
     canvas: HTMLCanvasElement
     imgUrl: string
     minSize?: number
@@ -29,7 +29,7 @@ export type HookType = 'initialize' | 'beforeDraw' | 'afterDraw'
 
 export type ArtType = 'pointillism'
 
-export class Ceremony {
+export class PixelArt {
     canvas!: HTMLCanvasElement
     imgUrl!: string
     minSize!: number
@@ -55,7 +55,7 @@ export class Ceremony {
         return this.#drawCount
     }
 
-    constructor(options: CeremonyOptions) {
+    constructor(options: PixelArtOptions) {
         this.canvas = options.canvas
         this.imgUrl = options.imgUrl
         this.minSize = options.minSize ?? 10

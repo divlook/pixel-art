@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { Container, makeStyles, Paper } from '@material-ui/core'
 import { useEffect, useRef } from 'react'
-import { Ceremony } from '~/libs/ceremony'
+import { PixelArt } from '~/libs/pixel-art'
 import { asset } from '~/libs/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
             transform: 'scale(1.5)',
             zIndex: -1,
             content: '""',
-        }
+        },
     },
     container: {
         padding: theme.spacing(2),
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const HomePage: NextPage = () => {
     const classes = useStyles()
     const canvasRef = useRef<HTMLCanvasElement>(null)
-    const ceremonyRef = useRef<Ceremony>()
+    const pixelArtRef = useRef<PixelArt>()
 
     useEffect(() => {
         ;(async () => {
@@ -52,18 +52,18 @@ const HomePage: NextPage = () => {
                 return
             }
 
-            ceremonyRef.current = new Ceremony({
+            pixelArtRef.current = new PixelArt({
                 canvas: canvasRef.current,
                 imgUrl: asset('/img/iu.jpg'),
                 initialDrawCount: 10000,
             })
 
-            ceremonyRef.current.addHook('initialize', () => {
+            pixelArtRef.current.addHook('initialize', () => {
                 console.log('initialize')
             })
 
-            await ceremonyRef.current.init()
-            await ceremonyRef.current.startAnimation()
+            await pixelArtRef.current.init()
+            await pixelArtRef.current.startAnimation()
         })()
     }, [])
 
