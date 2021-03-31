@@ -1,9 +1,5 @@
 # README
 
-## Reference
-
-- https://material-ui.com
-
 ## Demo
 
 - https://divlook.github.io/pixel-art
@@ -35,6 +31,7 @@ interface PixelArtOptions {
     intervalMs?: number
     initialDrawCount?: number
     shape?: Shape
+    type?: ArtType
 }
 ```
 
@@ -162,3 +159,7 @@ cancelAnimation(): Promise<void>
 ```ts
 execHook(type: HookType): void
 ```
+
+## Reference
+
+- https://material-ui.com
