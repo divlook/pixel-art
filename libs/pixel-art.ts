@@ -70,7 +70,7 @@ export class PixelArt {
 
     init() {
         const img = new Image()
-        const onLoad = () => {
+        const onLoad = async (resolve: VoidCallback) => {
             const ratio = img.naturalHeight / img.naturalWidth
 
             const width = this.canvas.clientWidth
@@ -97,15 +97,16 @@ export class PixelArt {
 
             this.execHook('initialize')
 
-            this.#que.forEach(async (cb) => await cb())
+            while (this.#que.length > 0) {
+                await this.#que.shift()?.()
+            }
+
+            resolve()
         }
 
         return new Promise<void>((resolve) => {
             img.src = this.imgUrl
-            img.onload = () => {
-                onLoad()
-                resolve()
-            }
+            img.onload = () => onLoad(resolve)
         })
     }
 
