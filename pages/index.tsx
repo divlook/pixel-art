@@ -55,6 +55,11 @@ const HomePage: NextPage = () => {
             ceremonyRef.current = new Ceremony({
                 canvas: canvasRef.current,
                 imgUrl: asset('/img/iu.jpg'),
+                initialDrawCount: 10000,
+            })
+
+            ceremonyRef.current.addHook('initialize', () => {
+                console.log('initialize')
             })
 
             await ceremonyRef.current.init()

@@ -4,21 +4,27 @@ export interface CeremonyOptions {
     minSize?: number
     maxSize?: number
     intervalMs?: number
+    initialDrawCount?: number
     shape?: Shape
 }
 
-export interface InitializeCallback {
-    (): void
-}
+export type VoidCallback = () => void
 
 export interface Coord {
     x: number
     y: number
 }
 
-export type Shape =  'circle' | 'square'
+export type Shape = 'circle' | 'square'
 
 export type RGBA = [number, number, number, number]
+
+export interface Hook {
+    type: HookType
+    callback: VoidCallback
+}
+
+export type HookType = 'initialize' | 'beforeDraw' | 'afterDraw'
 
 export class Ceremony {
     canvas!: HTMLCanvasElement
@@ -26,6 +32,7 @@ export class Ceremony {
     minSize!: number
     maxSize!: number
     intervalMs!: number
+    initialDrawCount!: number
     shape!: Shape
 
     #shadowCanvas!: HTMLCanvasElement
@@ -33,10 +40,16 @@ export class Ceremony {
     #ctx!: CanvasRenderingContext2D
     #img!: HTMLImageElement
     #isInitialized = false
-    #que: InitializeCallback[] = []
+    #que: VoidCallback[] = []
+    #hooks: Hook[] = []
     #imageData!: ImageData
     #requestAnimationId: number | null = null
     #lastAnimationTimeMs = 0
+    #drawCount = 0
+
+    get drawCount() {
+        return this.#drawCount
+    }
 
     constructor(options: CeremonyOptions) {
         this.canvas = options.canvas
@@ -44,6 +57,7 @@ export class Ceremony {
         this.minSize = options.minSize ?? 10
         this.maxSize = options.maxSize ?? 20
         this.intervalMs = options.intervalMs ?? 10
+        this.initialDrawCount = options.initialDrawCount ?? 0
         this.shape = options.shape ?? 'square'
 
         this.#shadowCanvas = document.createElement('canvas')
@@ -71,6 +85,13 @@ export class Ceremony {
             this.#img = img
             this.#shadowCtx.drawImage(this.#img, 0, 0, width, height)
             this.#imageData = this.#shadowCtx.getImageData(0, 0, width, height)
+
+            for (let i = 0; i < this.initialDrawCount; i++) {
+                this.draw()
+            }
+
+            this.execHook('initialize')
+
             this.#que.forEach(async (cb) => await cb())
         }
 
@@ -83,13 +104,17 @@ export class Ceremony {
         })
     }
 
-    afterInitialization(callback: InitializeCallback) {
+    afterInitialize(callback: VoidCallback) {
         if (!this.#isInitialized) {
             this.#que.push(callback)
             return
         }
 
         callback()
+    }
+
+    addHook(type: HookType, callback: VoidCallback) {
+        this.#hooks.push({ type, callback })
     }
 
     random(min: number, max: number, isIncludingMaximum = false) {
@@ -102,7 +127,7 @@ export class Ceremony {
 
     getRandomCoord() {
         return new Promise<Coord>((resolve) => {
-            this.afterInitialization(() => {
+            this.afterInitialize(() => {
                 const coord: Coord = {
                     x: this.random(0, this.canvas.width),
                     y: this.random(0, this.canvas.height),
@@ -115,7 +140,7 @@ export class Ceremony {
 
     getColor(xCoord: number, yCoord: number) {
         return new Promise<RGBA>((resolve) => {
-            this.afterInitialization(() => {
+            this.afterInitialize(() => {
                 const image = this.#imageData.data
                 const redIndex = yCoord * (this.canvas.width * 4) + xCoord * 4
                 const greenIndex = redIndex + 1
@@ -135,7 +160,9 @@ export class Ceremony {
 
     draw() {
         return new Promise<void>((resolve) => {
-            this.afterInitialization(async () => {
+            this.afterInitialize(async () => {
+                this.execHook('beforeDraw')
+
                 const { x, y } = await this.getRandomCoord()
                 const rgba = await this.getColor(x, y)
                 const diameter = this.random(this.minSize, this.maxSize, true)
@@ -151,6 +178,9 @@ export class Ceremony {
                     this.#ctx.rect(x - radius, y - radius, diameter, diameter)
                 }
                 this.#ctx.fill()
+                this.#drawCount++
+
+                this.execHook('afterDraw')
 
                 resolve()
             })
@@ -159,7 +189,7 @@ export class Ceremony {
 
     startAnimation() {
         return new Promise<void>((resolve) => {
-            this.afterInitialization(() => {
+            this.afterInitialize(() => {
                 this.#requestAnimationId = requestAnimationFrame((time) => {
                     if (!this.#lastAnimationTimeMs) {
                         this.#lastAnimationTimeMs = time
@@ -179,7 +209,7 @@ export class Ceremony {
 
     cancelAnimation() {
         return new Promise<void>((resolve) => {
-            this.afterInitialization(() => {
+            this.afterInitialize(() => {
                 this.#lastAnimationTimeMs = 0
 
                 if (this.#requestAnimationId === null) {
@@ -191,5 +221,11 @@ export class Ceremony {
                 resolve()
             })
         })
+    }
+
+    execHook(type: HookType) {
+        this.#hooks
+            .filter((hook) => hook.type === type)
+            .forEach(async (hook) => await hook.callback())
     }
 }
