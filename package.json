@@ -2,8 +2,16 @@
   "name": "@divlook/pixel-art",
   "version": "0.1.0",
   "private": true,
-  "keywords": ["art", "pixel", "pointillism"],
-  "browserslist": ["last 2 versions", "not dead", "> 0.2%"],
+  "keywords": [
+    "art",
+    "pixel",
+    "pointillism"
+  ],
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "> 0.2%"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,6 +21,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "next": "10.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
