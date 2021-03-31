@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { Container, makeStyles, Paper } from '@material-ui/core'
 import { useEffect, useRef } from 'react'
 import { PixelArt } from '~/libs/pixel-art'
-import { asset } from '~/libs/utils'
+import { asset } from '~/libs/utils.amd'
 
 const useStyles = makeStyles((theme) => ({
     root: {

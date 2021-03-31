@@ -1,4 +1,6 @@
-const ASSET_PREFIX = process.env.ASSET_PREFIX || '/'
+const { asset } = require('./libs/utils.amd')
+
+const ASSET_PREFIX = asset()
 
 module.exports = {
     env: {
