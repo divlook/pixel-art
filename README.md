@@ -160,6 +160,19 @@ cancelAnimation(): Promise<void>
 execHook(type: HookType): void
 ```
 
+### clear
+
+```ts
+clear(): Promise<void>
+```
+
+### reset
+
+```ts
+reset(): Promise<void>
+```
+
 ## Reference
 
 - https://material-ui.com
+- https://material-ui.com/components/material-icons

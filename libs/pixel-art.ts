@@ -234,4 +234,26 @@ export class PixelArt {
             .filter((hook) => hook.type === type)
             .forEach(async (hook) => await hook.callback())
     }
+
+    clear() {
+        return new Promise<void>((resolve) => {
+            this.afterInitialize(() => {
+                this.#ctx.fillStyle = `white`
+                this.#ctx.beginPath()
+                this.#ctx.rect(0, 0, this.canvas.width, this.canvas.height)
+                this.#ctx.fill()
+                resolve()
+            })
+        })
+    }
+
+    reset() {
+        return new Promise<void>((resolve) => {
+            this.afterInitialize(async () => {
+                await this.clear()
+                await this.init()
+                resolve()
+            })
+        })
+    }
 }
