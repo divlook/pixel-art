@@ -15,7 +15,7 @@
 
 • **x**: *number*
 
-Defined in: [pixel-art.ts:33](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L33)
+Defined in: [pixel-art.ts:33](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L33)
 
 ___
 
@@ -23,4 +23,4 @@ ___
 
 • **y**: *number*
 
-Defined in: [pixel-art.ts:34](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L34)
+Defined in: [pixel-art.ts:34](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L34)

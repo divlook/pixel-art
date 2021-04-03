@@ -21,7 +21,7 @@
 
 • **canvas**: HTMLCanvasElement
 
-Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L2)
+Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L2)
 
 ___
 
@@ -29,7 +29,7 @@ ___
 
 • **imgUrl**: *string*
 
-Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L3)
+Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L3)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 **`default`** 0
 
-Defined in: [pixel-art.ts:19](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L19)
+Defined in: [pixel-art.ts:19](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L19)
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 **`default`** 10
 
-Defined in: [pixel-art.ts:15](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L15)
+Defined in: [pixel-art.ts:15](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L15)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 **`default`** 20
 
-Defined in: [pixel-art.ts:11](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L11)
+Defined in: [pixel-art.ts:11](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L11)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 **`default`** 10
 
-Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L7)
+Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L7)
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 **`default`** 'square'
 
-Defined in: [pixel-art.ts:23](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L23)
+Defined in: [pixel-art.ts:23](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L23)
 
 ___
 
@@ -89,4 +89,4 @@ ___
 
 **`default`** 'pointillism'
 
-Defined in: [pixel-art.ts:27](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L27)
+Defined in: [pixel-art.ts:27](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L27)

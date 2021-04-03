@@ -28,7 +28,7 @@
 
 Ƭ **ArtType**: *pointillism*
 
-Defined in: [pixel-art.ts:48](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L48)
+Defined in: [pixel-art.ts:48](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L48)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 Ƭ **HookType**: *initialize* \| *beforeDraw* \| *afterDraw*
 
-Defined in: [pixel-art.ts:46](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L46)
+Defined in: [pixel-art.ts:46](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L46)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 Ƭ **RGBA**: [*number*, *number*, *number*, *number*]
 
-Defined in: [pixel-art.ts:39](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L39)
+Defined in: [pixel-art.ts:39](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L39)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 Ƭ **Shape**: *circle* \| *square*
 
-Defined in: [pixel-art.ts:37](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L37)
+Defined in: [pixel-art.ts:37](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L37)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 **Returns:** *void*
 
-Defined in: [pixel-art.ts:30](https://github.com/divlook/pixel-art/blob/5ed9bda/libs/pixel-art.ts#L30)
+Defined in: [pixel-art.ts:30](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L30)
