@@ -14,7 +14,7 @@ import {
     TextField,
 } from '@material-ui/core'
 import { PixelArt, PixelArtOptions, Shape } from '~/libs/pixel-art'
-import { asset } from '~/libs/utils.amd'
+import { asset } from '~/libs/utils.cjs'
 
 const useStyles = makeStyles((theme) => ({
     root: {

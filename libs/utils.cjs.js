@@ -1,4 +1,4 @@
-const { ASSET_PREFIX } = require('./env.amd')
+const { ASSET_PREFIX } = require('./env.cjs')
 
 const asset = (pathname = '') => {
     const segments = []

@@ -1,4 +1,4 @@
-const { asset } = require('./libs/utils.amd')
+const { asset } = require('./libs/utils.cjs')
 
 const ASSET_PREFIX = asset()
 
