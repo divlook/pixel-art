@@ -1,11 +1,29 @@
 export interface PixelArtOptions {
     canvas: HTMLCanvasElement
     imgUrl: string
+    /**
+     * @default 10
+     */
     minSize?: number
+    /**
+     * @default 20
+     */
     maxSize?: number
+    /**
+     * @default 10
+     */
     intervalMs?: number
+    /**
+     * @default 0
+     */
     initialDrawCount?: number
+    /**
+     * @default 'square'
+     */
     shape?: Shape
+    /**
+     * @default 'pointillism'
+     */
     type?: ArtType
 }
 

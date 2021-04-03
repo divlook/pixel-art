@@ -1,0 +1,96 @@
+name: auto release
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.github_token }}
+          git-user-name: github-actions[bot]
+          git-user-email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+
+  docgen:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        run: |
+          [ -f ./yarn.lock ] && yarn || npm i
+
+      - name: Document Generation
+        run: npm run docs
+
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.4.1
+        with:
+          commit_message: 'docs: pixel-art'
+          file_pattern: docs/*
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          push_options: '--force'
+
+  gh-pages:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Github Repository Metadata
+        uses: varunsridharan/action-repository-meta@2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install
+        if: success()
+        run: |
+          [ -f ./yarn.lock ] && yarn || npm i
+      - name: Build
+        if: success()
+        run: |
+          if [ "$REPOSITORY_OWNER" = "$REPOSITORY_SLUG" ]
+          then
+            npm run build
+          else
+            ASSET_PREFIX=$REPOSITORY_SLUG npm run build
+          fi
+        env:
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY_SLUG: ${{ env.REPOSITORY_SLUG }}
+
+      - name: Add No Jekyll
+        if: success()
+        run: touch dist/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
