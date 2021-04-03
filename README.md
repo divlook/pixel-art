@@ -1,7 +1,7 @@
+# Pixel Art
+
 [![Auto release](https://github.com/divlook/pixel-art/actions/workflows/auto-release.yml/badge.svg)](https://github.com/divlook/pixel-art/actions/workflows/auto-release.yml)
 [![GitHub release](https://img.shields.io/github/release/divlook/pixel-art.svg)](https://github.com/divlook/pixel-art/releases)
-
-# Pixel Art
 
 ## Demo
 
