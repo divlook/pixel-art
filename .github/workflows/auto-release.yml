@@ -17,8 +17,8 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.github_token }}
-          git-user-name: divlook
-          git-user-email: uihyeon.cha@gmail.com
+          git-user-name: github-actions[bot]
+          git-user-email: 41898282+github-actions[bot]@users.noreply.github.com
 
       - name: Create Release
         uses: actions/create-release@v1
@@ -49,8 +49,8 @@ jobs:
         with:
           commit_message: 'docs: pixel-art'
           file_pattern: docs/*
-          commit_user_name: divlook
-          commit_user_email: uihyeon.cha@gmail.com
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
           push_options: '--force'
 
   gh-pages:
