@@ -133,13 +133,17 @@ export class PixelArt {
         })
     }
 
-    afterInitialize(callback: VoidCallback) {
-        if (!this.#isInitialized) {
-            this.#que.push(callback)
-            return
-        }
+    afterInitialize<T = void>(callback: () => T | Promise<T>) {
+        return new Promise<T>(async (resolve) => {
+            if (!this.#isInitialized) {
+                this.#que.push(async () => {
+                    resolve(await callback())
+                })
+                return
+            }
 
-        callback()
+            resolve(await callback())
+        })
     }
 
     addHook(type: HookType, callback: VoidCallback) {
@@ -155,100 +159,85 @@ export class PixelArt {
     }
 
     getRandomCoord() {
-        return new Promise<Coord>((resolve) => {
-            this.afterInitialize(() => {
-                const coord: Coord = {
-                    x: this.random(0, this.canvas.width),
-                    y: this.random(0, this.canvas.height),
-                }
+        return this.afterInitialize<Coord>(() => {
+            const coord: Coord = {
+                x: this.random(0, this.canvas.width),
+                y: this.random(0, this.canvas.height),
+            }
 
-                resolve(coord)
-            })
+            return coord
         })
     }
 
     getColor(xCoord: number, yCoord: number) {
-        return new Promise<RGBA>((resolve) => {
-            this.afterInitialize(() => {
-                const image = this.#imageData.data
-                const redIndex = yCoord * (this.canvas.width * 4) + xCoord * 4
-                const greenIndex = redIndex + 1
-                const blueIndex = redIndex + 2
-                const alphaIndex = redIndex + 3
-                const rgba: RGBA = [
-                    image[redIndex],
-                    image[greenIndex],
-                    image[blueIndex],
-                    image[alphaIndex],
-                ]
+        return this.afterInitialize<RGBA>(() => {
+            const image = this.#imageData.data
+            const redIndex = yCoord * (this.canvas.width * 4) + xCoord * 4
+            const greenIndex = redIndex + 1
+            const blueIndex = redIndex + 2
+            const alphaIndex = redIndex + 3
+            const rgba: RGBA = [
+                image[redIndex],
+                image[greenIndex],
+                image[blueIndex],
+                image[alphaIndex],
+            ]
 
-                resolve(rgba)
-            })
+            return rgba
         })
     }
 
     draw() {
-        return new Promise<void>((resolve) => {
-            this.afterInitialize(async () => {
-                this.execHook('beforeDraw')
+        return this.afterInitialize(async () => {
+            this.execHook('beforeDraw')
 
-                const { x, y } = await this.getRandomCoord()
-                const rgba = await this.getColor(x, y)
-                const diameter = this.random(this.minSize, this.maxSize, true)
-                const radius = Math.round(diameter / 2)
+            const { x, y } = await this.getRandomCoord()
+            const rgba = await this.getColor(x, y)
+            const diameter = this.random(this.minSize, this.maxSize, true)
+            const radius = Math.round(diameter / 2)
 
-                this.#ctx.shadowBlur = 20
-                this.#ctx.shadowColor = `rgba(${rgba.join(',')})`
-                this.#ctx.fillStyle = `rgba(${rgba.slice(0, 3).join(',')}, 0.2)`
-                this.#ctx.beginPath()
-                if (this.shape === 'circle') {
-                    this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
-                } else {
-                    this.#ctx.rect(x - radius, y - radius, diameter, diameter)
-                }
-                this.#ctx.fill()
-                this.#drawCount++
+            this.#ctx.shadowBlur = 20
+            this.#ctx.shadowColor = `rgba(${rgba.join(',')})`
+            this.#ctx.fillStyle = `rgba(${rgba.slice(0, 3).join(',')}, 0.2)`
+            this.#ctx.beginPath()
+            if (this.shape === 'circle') {
+                this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
+            } else {
+                this.#ctx.rect(x - radius, y - radius, diameter, diameter)
+            }
+            this.#ctx.fill()
+            this.#drawCount++
 
-                this.execHook('afterDraw')
-
-                resolve()
-            })
+            this.execHook('afterDraw')
         })
     }
 
     startAnimation() {
-        return new Promise<void>((resolve) => {
-            this.afterInitialize(() => {
-                this.#requestAnimationId = requestAnimationFrame((time) => {
-                    if (!this.#lastAnimationTimeMs) {
-                        this.#lastAnimationTimeMs = time
-                    }
+        return this.afterInitialize(() => {
+            this.#requestAnimationId = requestAnimationFrame((time) => {
+                if (!this.#lastAnimationTimeMs) {
+                    this.#lastAnimationTimeMs = time
+                }
 
-                    if (time - this.#lastAnimationTimeMs >= this.intervalMs) {
-                        this.#lastAnimationTimeMs = time
-                        this.draw()
-                    }
+                if (time - this.#lastAnimationTimeMs >= this.intervalMs) {
+                    this.#lastAnimationTimeMs = time
+                    this.draw()
+                }
 
-                    this.startAnimation()
-                })
-                resolve()
+                this.startAnimation()
             })
         })
     }
 
     cancelAnimation() {
-        return new Promise<void>((resolve) => {
-            this.afterInitialize(() => {
-                this.#lastAnimationTimeMs = 0
+        return this.afterInitialize(() => {
+            this.#lastAnimationTimeMs = 0
 
-                if (this.#requestAnimationId === null) {
-                    resolve()
-                    return
-                }
+            if (this.#requestAnimationId === null) {
+                return
+            }
 
-                cancelAnimationFrame(this.#requestAnimationId)
-                resolve()
-            })
+            cancelAnimationFrame(this.#requestAnimationId)
         })
     }
 
@@ -259,24 +248,20 @@ export class PixelArt {
     }
 
     clear() {
-        return new Promise<void>((resolve) => {
-            this.afterInitialize(() => {
-                this.#ctx.fillStyle = `white`
-                this.#ctx.beginPath()
-                this.#ctx.rect(0, 0, this.canvas.width, this.canvas.height)
-                this.#ctx.fill()
-                resolve()
-            })
+        return this.afterInitialize(() => {
+            this.#ctx.fillStyle = `white`
+            this.#ctx.beginPath()
+            this.#ctx.rect(0, 0, this.canvas.width, this.canvas.height)
+            this.#ctx.fill()
         })
     }
 
     reset() {
-        return new Promise<void>((resolve) => {
-            this.afterInitialize(async () => {
-                await this.clear()
-                await this.init()
-                resolve()
-            })
+        return this.afterInitialize(async () => {
+            await this.clear()
+            await this.init()
         })
+    }
+
     }
 }
