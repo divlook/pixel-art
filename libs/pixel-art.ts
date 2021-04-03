@@ -3,22 +3,27 @@ export interface PixelArtOptions {
     imgUrl: string
     /**
      * @default 10
+     * @deprecated
      */
     minSize?: number
     /**
      * @default 20
+     * @deprecated
      */
     maxSize?: number
     /**
      * @default 10
+     * @deprecated
      */
     intervalMs?: number
     /**
      * @default 0
+     * @deprecated
      */
     initialDrawCount?: number
     /**
      * @default 'square'
+     * @deprecated
      */
     shape?: Shape
     /**
