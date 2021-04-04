@@ -13,7 +13,7 @@ import {
     Paper,
     TextField,
 } from '@material-ui/core'
-import { PixelArt, PixelArtOptions, Shape } from '~/libs/pixel-art'
+import { ArtType, PixelArt, PixelArtOptions } from '~/libs/pixel-art'
 import { asset } from '~/libs/utils.cjs'
 
 const useStyles = makeStyles((theme) => ({
@@ -68,13 +68,10 @@ const HomePage: NextPage = () => {
     const pixelArtRef = useRef<PixelArt>()
     const [isOpenBottomSheet, openBottomSheet] = useState(false)
     const [canvasState, setCanvasState] = useState<Partial<PixelArtOptions>>({
-        minSize: 10,
-        maxSize: 20,
-        intervalMs: 10,
-        initialDrawCount: 10000,
-        shape: 'square',
+        level: 2,
+        type: 'pointillism',
     })
-    const shapes: Shape[] = ['circle', 'square']
+    const artTypes: ArtType[] = ['pointillism', 'mosaic']
 
     const startAnimation = useCallback(() => {
         const pixelArt = pixelArtRef.current
@@ -83,18 +80,11 @@ const HomePage: NextPage = () => {
         pixelArt.startAnimation()
     }, [])
 
-    const cancelAnimation = useCallback(() => {
+    const stopAnimation = useCallback(() => {
         const pixelArt = pixelArtRef.current
         if (!pixelArt) return
 
-        pixelArt.cancelAnimation()
-    }, [])
-
-    const clearCanvas = useCallback(() => {
-        const pixelArt = pixelArtRef.current
-        if (!pixelArt) return
-
-        pixelArt.clear()
+        pixelArt.stopAnimation()
     }, [])
 
     const resetCanvas = useCallback(() => {
@@ -103,6 +93,23 @@ const HomePage: NextPage = () => {
 
         pixelArt.reset()
     }, [])
+
+    const restartCanvas = useCallback(async () => {
+        const pixelArt = pixelArtRef.current
+        if (!pixelArt) return
+
+        pixelArt.afterInitialize(async () => {
+            if (canvasState.level !== undefined) {
+                pixelArt.level = canvasState.level
+            }
+
+            if (canvasState.type && canvasState.type !== pixelArt.type) {
+                pixelArt.type = canvasState.type
+                await pixelArt.reset()
+                await pixelArt.startAnimation()
+            }
+        })
+    }, [canvasState])
 
     useEffect(() => {
         ;(async () => {
@@ -113,11 +120,8 @@ const HomePage: NextPage = () => {
             pixelArtRef.current = new PixelArt({
                 canvas: canvasRef.current,
                 imgUrl: asset('/img/iu.jpg'),
-                minSize: canvasState.minSize,
-                maxSize: canvasState.maxSize,
-                intervalMs: canvasState.intervalMs,
-                initialDrawCount: canvasState.initialDrawCount,
-                shape: canvasState.shape,
+                level: canvasState.level,
+                type: canvasState.type,
             })
 
             pixelArtRef.current.addHook('initialize', () => {
@@ -128,27 +132,6 @@ const HomePage: NextPage = () => {
             await pixelArtRef.current.startAnimation()
         })()
     }, [])
-
-    useEffect(() => {
-        const pixelArt = pixelArtRef.current
-        if (!pixelArt) return
-
-        pixelArt.afterInitialize(() => {
-            if (canvasState.minSize !== undefined) {
-                pixelArt.minSize = canvasState.minSize
-            }
-            if (canvasState.maxSize !== undefined) {
-                pixelArt.maxSize = canvasState.maxSize
-            }
-            if (canvasState.intervalMs !== undefined) {
-                pixelArt.intervalMs = canvasState.intervalMs
-            }
-            if (canvasState.initialDrawCount !== undefined) {
-                pixelArt.initialDrawCount = canvasState.initialDrawCount
-            }
-            if (canvasState.shape) pixelArt.shape = canvasState.shape
-        })
-    }, [canvasState])
 
     return (
         <>
@@ -177,35 +160,30 @@ const HomePage: NextPage = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md>
                             <TextField
-                                type="number"
-                                label="Min size (px)"
-                                defaultValue={canvasState.minSize}
+                                select
+                                label="Level"
+                                value={canvasState.level}
                                 fullWidth
+                                SelectProps={{
+                                    native: true,
+                                }}
                                 onChange={(e) => {
                                     setCanvasState((prevState) => ({
                                         ...prevState,
-                                        minSize: parseInt(e.target.value) || 0,
+                                        level: parseInt(e.target.value) || 0,
                                     }))
                                 }}
-                            />
+                            >
+                                {Array(5).fill(null).map((_, index) => (
+                                    <option key={index} value={index + 1}>
+                                        {index + 1}
+                                    </option>
+                                ))}
+                            </TextField>
                         </Grid>
 
-                        <Grid item xs={12} md>
-                            <TextField
-                                type="number"
-                                label="Max size (px)"
-                                defaultValue={canvasState.maxSize}
-                                fullWidth
-                                onChange={(e) => {
-                                    setCanvasState((prevState) => ({
-                                        ...prevState,
-                                        maxSize: parseInt(e.target.value) || 0,
-                                    }))
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={12} md>
+                        {/* TODO: duration으로 변경 */}
+                        {/* <Grid item xs={12} md>
                             <TextField
                                 type="number"
                                 label="Interval (ms)"
@@ -219,29 +197,13 @@ const HomePage: NextPage = () => {
                                     }))
                                 }}
                             />
-                        </Grid>
-
-                        <Grid item xs={12} md>
-                            <TextField
-                                type="number"
-                                label="Initial draw count"
-                                defaultValue={canvasState.initialDrawCount}
-                                fullWidth
-                                onChange={(e) => {
-                                    setCanvasState((prevState) => ({
-                                        ...prevState,
-                                        initialDrawCount:
-                                            parseInt(e.target.value) || 0,
-                                    }))
-                                }}
-                            />
-                        </Grid>
+                        </Grid> */}
 
                         <Grid item xs={12} md>
                             <TextField
                                 select
-                                label="Shape"
-                                value={canvasState.shape}
+                                label="ArtType"
+                                value={canvasState.type}
                                 fullWidth
                                 SelectProps={{
                                     native: true,
@@ -249,13 +211,13 @@ const HomePage: NextPage = () => {
                                 onChange={(e) => {
                                     setCanvasState((prevState) => ({
                                         ...prevState,
-                                        shape: e.target.value as Shape,
+                                        type: e.target.value as ArtType,
                                     }))
                                 }}
                             >
-                                {shapes.map((shape) => (
-                                    <option key={shape} value={shape}>
-                                        {shape}
+                                {artTypes.map((type) => (
+                                    <option key={type} value={type}>
+                                        {type}
                                     </option>
                                 ))}
                             </TextField>
@@ -265,14 +227,13 @@ const HomePage: NextPage = () => {
                             item
                             xs={12}
                             container
-                            alignItems="center"
                             justify="flex-end"
                         >
                             <ButtonGroup color="primary">
-                                <Button onClick={startAnimation}>Start</Button>
-                                <Button onClick={cancelAnimation}>Stop</Button>
-                                <Button onClick={clearCanvas}>Clear</Button>
+                                <Button onClick={startAnimation}>Play</Button>
+                                <Button onClick={stopAnimation}>Pause</Button>
                                 <Button onClick={resetCanvas}>Reset</Button>
+                                <Button onClick={restartCanvas} variant="contained">Apply</Button>
                             </ButtonGroup>
                         </Grid>
                     </Grid>
