@@ -69,9 +69,9 @@ const HomePage: NextPage = () => {
     const [isOpenBottomSheet, openBottomSheet] = useState(false)
     const [canvasState, setCanvasState] = useState<Partial<PixelArtOptions>>({
         level: 2,
-        type: 'pointillism',
+        type: 'mosaic',
     })
-    const artTypes: ArtType[] = ['pointillism', 'mosaic']
+    const artTypes: ArtType[] = ['mosaic', 'pointillism']
 
     const startAnimation = useCallback(() => {
         const pixelArt = pixelArtRef.current

@@ -2,7 +2,7 @@ export interface PixelArtOptions {
     canvas: HTMLCanvasElement
     imgUrl: string
     /**
-     * @default 'pointillism'
+     * @default 'mosaic'
      */
     type?: ArtType
     /**
@@ -29,8 +29,6 @@ export interface Coord {
     y: number
 }
 
-export type Shape = 'circle' | 'square'
-
 export type RGBFormat = [number, number, number]
 
 export interface Hook {
@@ -40,7 +38,7 @@ export interface Hook {
 
 export type HookType = 'initialize' | 'beforeDraw' | 'afterDraw'
 
-export type ArtType = 'pointillism' | 'mosaic'
+export type ArtType = 'mosaic' | 'pointillism'
 
 export class PixelArt {
     canvas!: HTMLCanvasElement
@@ -103,7 +101,7 @@ export class PixelArt {
     constructor(options: PixelArtOptions) {
         this.canvas = options.canvas
         this.imgUrl = options.imgUrl
-        this.type = options.type ?? 'pointillism'
+        this.type = options.type ?? 'mosaic'
         this.level = Math.min(Math.max(1, options.level ?? 2), 5)
         this.alpha = options.alpha ?? 0.2
 
