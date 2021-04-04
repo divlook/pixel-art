@@ -24,7 +24,7 @@ point 투명도
 
 **`default`** 0.2
 
-Defined in: [pixel-art.ts:22](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L22)
+Defined in: [pixel-art.ts:22](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L22)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 • **canvas**: HTMLCanvasElement
 
-Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L2)
+Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L2)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 • **imgUrl**: *string*
 
-Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L3)
+Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L3)
 
 ___
 
@@ -53,7 +53,7 @@ level이 높을수록 point 크기가 커집니다.
 
 **`default`** 2
 
-Defined in: [pixel-art.ts:14](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L14)
+Defined in: [pixel-art.ts:14](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L14)
 
 ___
 
@@ -61,6 +61,6 @@ ___
 
 • `Optional` **type**: [*ArtType*](../README.md#arttype)
 
-**`default`** 'pointillism'
+**`default`** 'mosaic'
 
-Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L7)
+Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L7)
