@@ -6,7 +6,31 @@ on:
       - "main"
 
 jobs:
+  docgen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        run: |
+          [ -f ./yarn.lock ] && yarn || npm i
+
+      - name: Document Generation
+        run: npm run docs
+
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.4.1
+        with:
+          commit_message: 'docs: pixel-art'
+          file_pattern: docs/*
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          push_options: '--force'
+
   release:
+    needs: docgen
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,29 +53,6 @@ jobs:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
-
-  docgen:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install
-        run: |
-          [ -f ./yarn.lock ] && yarn || npm i
-
-      - name: Document Generation
-        run: npm run docs
-
-      - name: Git Auto Commit
-        uses: stefanzweifel/git-auto-commit-action@v4.4.1
-        with:
-          commit_message: 'docs: pixel-art'
-          file_pattern: docs/*
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          push_options: '--force'
 
   gh-pages:
     needs: release
@@ -92,5 +93,6 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: dist
+          commit_message: 'chore(release): Deploy to GitHub pages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
