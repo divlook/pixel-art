@@ -18,7 +18,7 @@
 
 - [ArtType](README.md#arttype)
 - [HookType](README.md#hooktype)
-- [RGBA](README.md#rgba)
+- [RGBFormat](README.md#rgbformat)
 - [Shape](README.md#shape)
 - [VoidCallback](README.md#voidcallback)
 
@@ -26,9 +26,9 @@
 
 ### ArtType
 
-Ƭ **ArtType**: *pointillism*
+Ƭ **ArtType**: *pointillism* \| *mosaic*
 
-Defined in: [pixel-art.ts:48](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L48)
+Defined in: [pixel-art.ts:43](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L43)
 
 ___
 
@@ -36,15 +36,15 @@ ___
 
 Ƭ **HookType**: *initialize* \| *beforeDraw* \| *afterDraw*
 
-Defined in: [pixel-art.ts:46](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L46)
+Defined in: [pixel-art.ts:41](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L41)
 
 ___
 
-### RGBA
+### RGBFormat
 
-Ƭ **RGBA**: [*number*, *number*, *number*, *number*]
+Ƭ **RGBFormat**: [*number*, *number*, *number*]
 
-Defined in: [pixel-art.ts:39](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L39)
+Defined in: [pixel-art.ts:34](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L34)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 Ƭ **Shape**: *circle* \| *square*
 
-Defined in: [pixel-art.ts:37](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L37)
+Defined in: [pixel-art.ts:32](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L32)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 **Returns:** *void*
 
-Defined in: [pixel-art.ts:30](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L30)
+Defined in: [pixel-art.ts:25](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L25)

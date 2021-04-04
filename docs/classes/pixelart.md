@@ -10,44 +10,47 @@
 
 ### Properties
 
+- [#colorMap](pixelart.md##colormap)
 - [#ctx](pixelart.md##ctx)
 - [#drawCount](pixelart.md##drawcount)
 - [#hooks](pixelart.md##hooks)
 - [#imageData](pixelart.md##imagedata)
 - [#img](pixelart.md##img)
+- [#intervalMs](pixelart.md##intervalms)
 - [#isInitialized](pixelart.md##isinitialized)
 - [#lastAnimationTimeMs](pixelart.md##lastanimationtimems)
 - [#que](pixelart.md##que)
 - [#requestAnimationId](pixelart.md##requestanimationid)
 - [#shadowCanvas](pixelart.md##shadowcanvas)
 - [#shadowCtx](pixelart.md##shadowctx)
+- [#unusedCoords](pixelart.md##unusedcoords)
+- [alpha](pixelart.md#alpha)
 - [canvas](pixelart.md#canvas)
 - [imgUrl](pixelart.md#imgurl)
-- [initialDrawCount](pixelart.md#initialdrawcount)
-- [intervalMs](pixelart.md#intervalms)
-- [maxSize](pixelart.md#maxsize)
-- [minSize](pixelart.md#minsize)
-- [shape](pixelart.md#shape)
+- [level](pixelart.md#level)
 - [type](pixelart.md#type)
 
 ### Accessors
 
 - [drawCount](pixelart.md#drawcount)
+- [pointWidth](pixelart.md#pointwidth)
+- [unusedCoordsCount](pixelart.md#unusedcoordscount)
 
 ### Methods
 
 - [addHook](pixelart.md#addhook)
 - [afterInitialize](pixelart.md#afterinitialize)
-- [cancelAnimation](pixelart.md#cancelanimation)
 - [clear](pixelart.md#clear)
+- [createColorMap](pixelart.md#createcolormap)
 - [draw](pixelart.md#draw)
 - [execHook](pixelart.md#exechook)
-- [getColor](pixelart.md#getcolor)
+- [getRGB](pixelart.md#getrgb)
 - [getRandomCoord](pixelart.md#getrandomcoord)
 - [init](pixelart.md#init)
 - [random](pixelart.md#random)
 - [reset](pixelart.md#reset)
 - [startAnimation](pixelart.md#startanimation)
+- [stopAnimation](pixelart.md#stopanimation)
 
 ## Constructors
 
@@ -63,15 +66,23 @@ Name | Type |
 
 **Returns:** [*PixelArt*](pixelart.md)
 
-Defined in: [pixel-art.ts:74](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L74)
+Defined in: [pixel-art.ts:101](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L101)
 
 ## Properties
+
+### #colorMap
+
+• `Private` **#colorMap**: [*RGBFormat*](../README.md#rgbformat)[][]
+
+Defined in: [pixel-art.ts:64](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L64)
+
+___
 
 ### #ctx
 
 • `Private` **#ctx**: CanvasRenderingContext2D
 
-Defined in: [pixel-art.ts:62](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L62)
+Defined in: [pixel-art.ts:54](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L54)
 
 ___
 
@@ -79,7 +90,7 @@ ___
 
 • `Private` **#drawCount**: *number*= 0
 
-Defined in: [pixel-art.ts:70](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L70)
+Defined in: [pixel-art.ts:62](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L62)
 
 ___
 
@@ -87,7 +98,7 @@ ___
 
 • `Private` **#hooks**: [*Hook*](../interfaces/hook.md)[]
 
-Defined in: [pixel-art.ts:66](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L66)
+Defined in: [pixel-art.ts:58](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L58)
 
 ___
 
@@ -95,7 +106,7 @@ ___
 
 • `Private` **#imageData**: ImageData
 
-Defined in: [pixel-art.ts:67](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L67)
+Defined in: [pixel-art.ts:59](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L59)
 
 ___
 
@@ -103,7 +114,15 @@ ___
 
 • `Private` **#img**: HTMLImageElement
 
-Defined in: [pixel-art.ts:63](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L63)
+Defined in: [pixel-art.ts:55](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L55)
+
+___
+
+### #intervalMs
+
+• `Private` **#intervalMs**: *number*= 100
+
+Defined in: [pixel-art.ts:65](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L65)
 
 ___
 
@@ -111,7 +130,7 @@ ___
 
 • `Private` **#isInitialized**: *boolean*= false
 
-Defined in: [pixel-art.ts:64](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L64)
+Defined in: [pixel-art.ts:56](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L56)
 
 ___
 
@@ -119,7 +138,7 @@ ___
 
 • `Private` **#lastAnimationTimeMs**: *number*= 0
 
-Defined in: [pixel-art.ts:69](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L69)
+Defined in: [pixel-art.ts:61](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L61)
 
 ___
 
@@ -127,7 +146,7 @@ ___
 
 • `Private` **#que**: [*VoidCallback*](../README.md#voidcallback)[]
 
-Defined in: [pixel-art.ts:65](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L65)
+Defined in: [pixel-art.ts:57](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L57)
 
 ___
 
@@ -135,7 +154,7 @@ ___
 
 • `Private` **#requestAnimationId**: *null* \| *number*= null
 
-Defined in: [pixel-art.ts:68](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L68)
+Defined in: [pixel-art.ts:60](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L60)
 
 ___
 
@@ -143,7 +162,7 @@ ___
 
 • `Private` **#shadowCanvas**: HTMLCanvasElement
 
-Defined in: [pixel-art.ts:60](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L60)
+Defined in: [pixel-art.ts:52](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L52)
 
 ___
 
@@ -151,7 +170,23 @@ ___
 
 • `Private` **#shadowCtx**: CanvasRenderingContext2D
 
-Defined in: [pixel-art.ts:61](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L61)
+Defined in: [pixel-art.ts:53](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L53)
+
+___
+
+### #unusedCoords
+
+• `Private` **#unusedCoords**: [*Coord*](../interfaces/coord.md)[]
+
+Defined in: [pixel-art.ts:63](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L63)
+
+___
+
+### alpha
+
+• **alpha**: *number*
+
+Defined in: [pixel-art.ts:50](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L50)
 
 ___
 
@@ -159,7 +194,7 @@ ___
 
 • **canvas**: HTMLCanvasElement
 
-Defined in: [pixel-art.ts:51](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L51)
+Defined in: [pixel-art.ts:46](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L46)
 
 ___
 
@@ -167,55 +202,23 @@ ___
 
 • **imgUrl**: *string*
 
-Defined in: [pixel-art.ts:52](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L52)
+Defined in: [pixel-art.ts:47](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L47)
 
 ___
 
-### initialDrawCount
+### level
 
-• **initialDrawCount**: *number*
+• **level**: *number*
 
-Defined in: [pixel-art.ts:56](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L56)
-
-___
-
-### intervalMs
-
-• **intervalMs**: *number*
-
-Defined in: [pixel-art.ts:55](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L55)
-
-___
-
-### maxSize
-
-• **maxSize**: *number*
-
-Defined in: [pixel-art.ts:54](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L54)
-
-___
-
-### minSize
-
-• **minSize**: *number*
-
-Defined in: [pixel-art.ts:53](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L53)
-
-___
-
-### shape
-
-• **shape**: [*Shape*](../README.md#shape)
-
-Defined in: [pixel-art.ts:57](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L57)
+Defined in: [pixel-art.ts:49](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L49)
 
 ___
 
 ### type
 
-• **type**: *pointillism*
+• **type**: [*ArtType*](../README.md#arttype)
 
-Defined in: [pixel-art.ts:58](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L58)
+Defined in: [pixel-art.ts:48](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L48)
 
 ## Accessors
 
@@ -225,7 +228,27 @@ Defined in: [pixel-art.ts:58](https://github.com/divlook/pixel-art/blob/07be79c/
 
 **Returns:** *number*
 
-Defined in: [pixel-art.ts:72](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L72)
+Defined in: [pixel-art.ts:67](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L67)
+
+___
+
+### pointWidth
+
+• get **pointWidth**(): *number*
+
+**Returns:** *number*
+
+Defined in: [pixel-art.ts:71](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L71)
+
+___
+
+### unusedCoordsCount
+
+• get **unusedCoordsCount**(): *number*
+
+**Returns:** *number*
+
+Defined in: [pixel-art.ts:99](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L99)
 
 ## Methods
 
@@ -242,33 +265,29 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [pixel-art.ts:140](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L140)
+Defined in: [pixel-art.ts:166](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L166)
 
 ___
 
 ### afterInitialize
 
-▸ **afterInitialize**(`callback`: [*VoidCallback*](../README.md#voidcallback)): *void*
+▸ **afterInitialize**<T\>(`callback`: () => T \| *Promise*<T\>): *Promise*<T\>
+
+#### Type parameters:
+
+Name | Default |
+:------ | :------ |
+`T` | *void* |
 
 #### Parameters:
 
 Name | Type |
 :------ | :------ |
-`callback` | [*VoidCallback*](../README.md#voidcallback) |
+`callback` | () => T \| *Promise*<T\> |
 
-**Returns:** *void*
+**Returns:** *Promise*<T\>
 
-Defined in: [pixel-art.ts:131](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L131)
-
-___
-
-### cancelAnimation
-
-▸ **cancelAnimation**(): *Promise*<void\>
-
-**Returns:** *Promise*<void\>
-
-Defined in: [pixel-art.ts:234](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L234)
+Defined in: [pixel-art.ts:153](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L153)
 
 ___
 
@@ -278,7 +297,19 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [pixel-art.ts:256](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L256)
+Defined in: [pixel-art.ts:322](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L322)
+
+___
+
+### createColorMap
+
+▸ **createColorMap**(): *Promise*<void\>
+
+**`todo`** 성능 문제때문에 워커로 분리 필요
+
+**Returns:** *Promise*<void\>
+
+Defined in: [pixel-art.ts:342](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L342)
 
 ___
 
@@ -288,7 +319,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [pixel-art.ts:185](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L185)
+Defined in: [pixel-art.ts:214](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L214)
 
 ___
 
@@ -304,13 +335,13 @@ Name | Type |
 
 **Returns:** *void*
 
-Defined in: [pixel-art.ts:250](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L250)
+Defined in: [pixel-art.ts:316](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L316)
 
 ___
 
-### getColor
+### getRGB
 
-▸ **getColor**(`xCoord`: *number*, `yCoord`: *number*): *Promise*<[*RGBA*](../README.md#rgba)\>
+▸ **getRGB**(`xCoord`: *number*, `yCoord`: *number*): *Promise*<[*RGBFormat*](../README.md#rgbformat)\>
 
 #### Parameters:
 
@@ -319,9 +350,9 @@ Name | Type |
 `xCoord` | *number* |
 `yCoord` | *number* |
 
-**Returns:** *Promise*<[*RGBA*](../README.md#rgba)\>
+**Returns:** *Promise*<[*RGBFormat*](../README.md#rgbformat)\>
 
-Defined in: [pixel-art.ts:165](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L165)
+Defined in: [pixel-art.ts:198](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L198)
 
 ___
 
@@ -331,7 +362,7 @@ ___
 
 **Returns:** *Promise*<[*Coord*](../interfaces/coord.md)\>
 
-Defined in: [pixel-art.ts:152](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L152)
+Defined in: [pixel-art.ts:178](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L178)
 
 ___
 
@@ -341,7 +372,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [pixel-art.ts:89](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L89)
+Defined in: [pixel-art.ts:113](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L113)
 
 ___
 
@@ -359,7 +390,7 @@ Name | Type | Default value |
 
 **Returns:** *number*
 
-Defined in: [pixel-art.ts:144](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L144)
+Defined in: [pixel-art.ts:170](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L170)
 
 ___
 
@@ -369,7 +400,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [pixel-art.ts:268](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L268)
+Defined in: [pixel-art.ts:331](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L331)
 
 ___
 
@@ -379,4 +410,14 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [pixel-art.ts:214](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L214)
+Defined in: [pixel-art.ts:271](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L271)
+
+___
+
+### stopAnimation
+
+▸ **stopAnimation**(): *Promise*<void\>
+
+**Returns:** *Promise*<void\>
+
+Defined in: [pixel-art.ts:304](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L304)

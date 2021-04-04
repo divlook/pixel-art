@@ -6,22 +6,33 @@
 
 ### Properties
 
+- [alpha](pixelartoptions.md#alpha)
 - [canvas](pixelartoptions.md#canvas)
 - [imgUrl](pixelartoptions.md#imgurl)
-- [initialDrawCount](pixelartoptions.md#initialdrawcount)
-- [intervalMs](pixelartoptions.md#intervalms)
-- [maxSize](pixelartoptions.md#maxsize)
-- [minSize](pixelartoptions.md#minsize)
-- [shape](pixelartoptions.md#shape)
+- [level](pixelartoptions.md#level)
 - [type](pixelartoptions.md#type)
 
 ## Properties
+
+### alpha
+
+• `Optional` **alpha**: *number*
+
+point 투명도
+
+- 범위 : 0 ~ 1
+
+**`default`** 0.2
+
+Defined in: [pixel-art.ts:22](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L22)
+
+___
 
 ### canvas
 
 • **canvas**: HTMLCanvasElement
 
-Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L2)
+Defined in: [pixel-art.ts:2](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L2)
 
 ___
 
@@ -29,64 +40,27 @@ ___
 
 • **imgUrl**: *string*
 
-Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L3)
+Defined in: [pixel-art.ts:3](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L3)
 
 ___
 
-### initialDrawCount
+### level
 
-• `Optional` **initialDrawCount**: *number*
+• `Optional` **level**: *number*
 
-**`default`** 0
+level이 높을수록 point 크기가 커집니다.
+1 ~ 5까지 입력할 수 있습니다.
 
-Defined in: [pixel-art.ts:19](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L19)
+**`default`** 2
 
-___
-
-### intervalMs
-
-• `Optional` **intervalMs**: *number*
-
-**`default`** 10
-
-Defined in: [pixel-art.ts:15](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L15)
-
-___
-
-### maxSize
-
-• `Optional` **maxSize**: *number*
-
-**`default`** 20
-
-Defined in: [pixel-art.ts:11](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L11)
-
-___
-
-### minSize
-
-• `Optional` **minSize**: *number*
-
-**`default`** 10
-
-Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L7)
-
-___
-
-### shape
-
-• `Optional` **shape**: [*Shape*](../README.md#shape)
-
-**`default`** 'square'
-
-Defined in: [pixel-art.ts:23](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L23)
+Defined in: [pixel-art.ts:14](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L14)
 
 ___
 
 ### type
 
-• `Optional` **type**: *pointillism*
+• `Optional` **type**: [*ArtType*](../README.md#arttype)
 
 **`default`** 'pointillism'
 
-Defined in: [pixel-art.ts:27](https://github.com/divlook/pixel-art/blob/07be79c/libs/pixel-art.ts#L27)
+Defined in: [pixel-art.ts:7](https://github.com/divlook/pixel-art/blob/6c9f6c1/libs/pixel-art.ts#L7)
