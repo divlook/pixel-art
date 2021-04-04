@@ -2,34 +2,24 @@ export interface PixelArtOptions {
     canvas: HTMLCanvasElement
     imgUrl: string
     /**
-     * @default 10
-     * @deprecated
-     */
-    minSize?: number
-    /**
-     * @default 20
-     * @deprecated
-     */
-    maxSize?: number
-    /**
-     * @default 10
-     * @deprecated
-     */
-    intervalMs?: number
-    /**
-     * @default 0
-     * @deprecated
-     */
-    initialDrawCount?: number
-    /**
-     * @default 'square'
-     * @deprecated
-     */
-    shape?: Shape
-    /**
      * @default 'pointillism'
      */
     type?: ArtType
+    /**
+     * level이 높을수록 point 크기가 커집니다.
+     * 1 ~ 5까지 입력할 수 있습니다.
+     *
+     * @default 2
+     */
+    level?: number
+    /**
+     * point 투명도
+     *
+     * - 범위 : 0 ~ 1
+     *
+     * @default 0.2
+     */
+    alpha?: number
 }
 
 export type VoidCallback = () => void
@@ -41,7 +31,7 @@ export interface Coord {
 
 export type Shape = 'circle' | 'square'
 
-export type RGBA = [number, number, number, number]
+export type RGBFormat = [number, number, number]
 
 export interface Hook {
     type: HookType
@@ -50,17 +40,14 @@ export interface Hook {
 
 export type HookType = 'initialize' | 'beforeDraw' | 'afterDraw'
 
-export type ArtType = 'pointillism'
+export type ArtType = 'pointillism' | 'mosaic'
 
 export class PixelArt {
     canvas!: HTMLCanvasElement
     imgUrl!: string
-    minSize!: number
-    maxSize!: number
-    intervalMs!: number
-    initialDrawCount!: number
-    shape!: Shape
     type!: ArtType
+    level!: number
+    alpha!: number
 
     #shadowCanvas!: HTMLCanvasElement
     #shadowCtx!: CanvasRenderingContext2D
@@ -73,20 +60,52 @@ export class PixelArt {
     #requestAnimationId: number | null = null
     #lastAnimationTimeMs = 0
     #drawCount = 0
+    #unusedCoords: Coord[] = []
+    #colorMap: RGBFormat[][] = []
+    #intervalMs = 100
 
     get drawCount() {
         return this.#drawCount
     }
 
+    get pointWidth() {
+        let pointWidth = this.canvas.width
+
+        switch (this.level) {
+            case 1:
+                pointWidth *= 1 / 300
+                break
+
+            case 2:
+                pointWidth *= 1 / 120
+                break
+
+            case 4:
+                pointWidth *= 1 / 40
+                break
+
+            case 5:
+                pointWidth *= 1 / 30
+                break
+
+            default:
+                pointWidth *= 1 / 60
+                break
+        }
+
+        return Math.ceil(pointWidth)
+    }
+
+    get unusedCoordsCount() {
+        return this.#unusedCoords.length
+    }
+
     constructor(options: PixelArtOptions) {
         this.canvas = options.canvas
         this.imgUrl = options.imgUrl
-        this.minSize = options.minSize ?? 10
-        this.maxSize = options.maxSize ?? 20
-        this.intervalMs = options.intervalMs ?? 10
-        this.initialDrawCount = options.initialDrawCount ?? 0
-        this.shape = options.shape ?? 'square'
         this.type = options.type ?? 'pointillism'
+        this.level = Math.min(Math.max(1, options.level ?? 2), 5)
+        this.alpha = options.alpha ?? 0.2
 
         this.#shadowCanvas = document.createElement('canvas')
     }
@@ -114,9 +133,7 @@ export class PixelArt {
             this.#shadowCtx.drawImage(this.#img, 0, 0, width, height)
             this.#imageData = this.#shadowCtx.getImageData(0, 0, width, height)
 
-            for (let i = 0; i < this.initialDrawCount; i++) {
-                this.draw()
-            }
+            await this.createColorMap()
 
             this.execHook('initialize')
 
@@ -160,52 +177,91 @@ export class PixelArt {
 
     getRandomCoord() {
         return this.afterInitialize<Coord>(() => {
+            if (this.unusedCoordsCount) {
+                const index = this.random(0, this.unusedCoordsCount)
+
+                return this.#unusedCoords.splice(index, 1)[0]
+            }
+
+            const cols = Math.ceil(this.canvas.width / this.pointWidth)
+            const rows = Math.ceil(this.canvas.height / this.pointWidth)
+
             const coord: Coord = {
-                x: this.random(0, this.canvas.width),
-                y: this.random(0, this.canvas.height),
+                x: this.random(0, cols) * this.pointWidth,
+                y: this.random(0, rows) * this.pointWidth,
             }
 
             return coord
         })
     }
 
-    getColor(xCoord: number, yCoord: number) {
-        return this.afterInitialize<RGBA>(() => {
+    getRGB(xCoord: number, yCoord: number) {
+        return this.afterInitialize<RGBFormat>(() => {
             const image = this.#imageData.data
-            const redIndex = yCoord * (this.canvas.width * 4) + xCoord * 4
+            const redIndex = yCoord * (this.#imageData.width * 4) + xCoord * 4
             const greenIndex = redIndex + 1
             const blueIndex = redIndex + 2
-            const alphaIndex = redIndex + 3
-            const rgba: RGBA = [
+            const rgb: RGBFormat = [
                 image[redIndex],
                 image[greenIndex],
                 image[blueIndex],
-                image[alphaIndex],
             ]
 
-            return rgba
+            return rgb
         })
     }
 
     draw() {
         return this.afterInitialize(async () => {
             this.execHook('beforeDraw')
+            const random = this.random.bind(this)
 
-            const { x, y } = await this.getRandomCoord()
-            const rgba = await this.getColor(x, y)
-            const diameter = this.random(this.minSize, this.maxSize, true)
-            const radius = Math.round(diameter / 2)
+            let width = this.pointWidth
 
-            this.#ctx.shadowBlur = 20
-            this.#ctx.shadowColor = `rgba(${rgba.join(',')})`
-            this.#ctx.fillStyle = `rgba(${rgba.slice(0, 3).join(',')}, 0.2)`
-            this.#ctx.beginPath()
-            if (this.shape === 'circle') {
-                this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
-            } else {
-                this.#ctx.rect(x - radius, y - radius, diameter, diameter)
+            switch (this.type) {
+                case 'pointillism': {
+                    width = random(width, width * 1.5, true)
+                    break
+                }
+                case 'mosaic': {
+                    width = this.pointWidth
+                    break
+                }
             }
-            this.#ctx.fill()
+
+            let { x, y } = await this.getRandomCoord()
+            const rgb = await this.getRGB(x, y)
+            const radius = Math.round(width / 2)
+            const shadowColor = `rgb(${rgb.join(',')})`
+            const fillStyle = `rgba(${rgb.join(',')}, ${this.alpha})`
+
+            switch (this.type) {
+                case 'pointillism': {
+
+                    const correctionValue = width / 1.5
+
+                    x = random(Math.abs(x - correctionValue), x + correctionValue, true)
+                    y = random(Math.abs(y - correctionValue), y + correctionValue, true)
+
+                    this.#ctx.shadowBlur = 20
+                    this.#ctx.shadowColor = shadowColor
+                    this.#ctx.fillStyle = fillStyle
+                    this.#ctx.beginPath()
+                    this.#ctx.ellipse(x, y, radius, radius, 0, 0, Math.PI * 2)
+                    this.#ctx.fill()
+                    break
+                }
+                case 'mosaic': {
+                    this.#ctx.shadowBlur = 0
+                    this.#ctx.shadowColor = ''
+                    this.#ctx.fillStyle = fillStyle
+                    this.#ctx.beginPath()
+                    this.#ctx.rect(x, y, width, width)
+                    this.#ctx.fill()
+                    break
+                }
+            }
+
             this.#drawCount++
 
             this.execHook('afterDraw')
@@ -219,9 +275,25 @@ export class PixelArt {
                     this.#lastAnimationTimeMs = time
                 }
 
-                if (time - this.#lastAnimationTimeMs >= this.intervalMs) {
+                if (time - this.#lastAnimationTimeMs >= this.#intervalMs) {
                     this.#lastAnimationTimeMs = time
-                    this.draw()
+
+                    /**
+                     * TODO: duration에 따라 계산해야됨
+                     * TODO: 성능 테스트 필요
+                     */
+                    for (let i = 0; i < 100; i++) {
+                        this.draw()
+                    }
+                }
+
+                switch (this.type) {
+                    case 'mosaic': {
+                        if (this.unusedCoordsCount === 0) {
+                            return
+                        }
+                        break
+                    }
                 }
 
                 this.startAnimation()
@@ -229,7 +301,7 @@ export class PixelArt {
         })
     }
 
-    cancelAnimation() {
+    stopAnimation() {
         return this.afterInitialize(() => {
             this.#lastAnimationTimeMs = 0
 
@@ -248,7 +320,7 @@ export class PixelArt {
     }
 
     clear() {
-        return this.afterInitialize(() => {
+        return this.afterInitialize(async () => {
             this.#ctx.fillStyle = `white`
             this.#ctx.beginPath()
             this.#ctx.rect(0, 0, this.canvas.width, this.canvas.height)
@@ -258,10 +330,47 @@ export class PixelArt {
 
     reset() {
         return this.afterInitialize(async () => {
+            await this.stopAnimation()
             await this.clear()
             await this.init()
         })
     }
 
+    /**
+     * @todo 성능 문제때문에 워커로 분리 필요
+     */
+    createColorMap() {
+        return this.afterInitialize(async () => {
+            const cols = Math.ceil(this.canvas.width / this.pointWidth)
+            const rows = Math.ceil(this.canvas.height / this.pointWidth)
+            const que: Promise<void>[] = []
+            const multiple = Math.ceil(1 / this.alpha) * 10
+
+            this.#unusedCoords = []
+            this.#colorMap = Array(rows)
+                .fill(null)
+                .map((_, row) => {
+                    return Array(cols)
+                        .fill(null)
+                        .map((_, col) => {
+                            const x = col * this.pointWidth
+                            const y = row * this.pointWidth
+
+                            for (let i = 0; i < multiple; i++) {
+                                this.#unusedCoords.push({ x, y })
+                            }
+
+                            que.push(
+                                this.getRGB(col, row).then((rgb) => {
+                                    this.#colorMap[row][col] = rgb
+                                })
+                            )
+
+                            return [0, 0, 0]
+                        })
+                })
+
+            await Promise.all(que)
+        })
     }
 }
