@@ -55,7 +55,7 @@ export class PixelArt {
     #que: VoidCallback[] = []
     #hooks: Hook[] = []
     #imageData!: ImageData
-    #requestAnimationId: number | null = null
+    #animationQue: number[] = []
     #lastAnimationTimeMs = 0
     #drawCount = 0
     #unusedCoords: Coord[] = []
@@ -268,7 +268,9 @@ export class PixelArt {
 
     startAnimation() {
         return this.afterInitialize(() => {
-            this.#requestAnimationId = requestAnimationFrame((time) => {
+            const requestAnimationId = requestAnimationFrame((time) => {
+                this.#animationQue.shift()
+
                 if (!this.#lastAnimationTimeMs) {
                     this.#lastAnimationTimeMs = time
                 }
@@ -296,18 +298,26 @@ export class PixelArt {
 
                 this.startAnimation()
             })
+
+            this.#animationQue.push(requestAnimationId)
         })
     }
 
     stopAnimation() {
         return this.afterInitialize(() => {
-            this.#lastAnimationTimeMs = 0
+            while (true) {
+                if (this.#animationQue.length === 0) {
+                    break
+                }
 
-            if (this.#requestAnimationId === null) {
-                return
+                const animationId = this.#animationQue.shift() ?? null
+
+                if (animationId !== null) {
+                    cancelAnimationFrame(animationId)
+                }
             }
 
-            cancelAnimationFrame(this.#requestAnimationId)
+            this.#lastAnimationTimeMs = 0
         })
     }
 
