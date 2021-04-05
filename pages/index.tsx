@@ -94,7 +94,7 @@ const HomePage: NextPage = () => {
         pixelArt.reset()
     }, [])
 
-    const restartCanvas = useCallback(async () => {
+    const apply = useCallback(async () => {
         const pixelArt = pixelArtRef.current
         if (!pixelArt) return
 
@@ -105,9 +105,11 @@ const HomePage: NextPage = () => {
 
             if (canvasState.type && canvasState.type !== pixelArt.type) {
                 pixelArt.type = canvasState.type
-                await pixelArt.reset()
-                await pixelArt.startAnimation()
             }
+
+            await pixelArt.reset()
+            await pixelArt.startAnimation()
+            openBottomSheet(false)
         })
     }, [canvasState])
 
@@ -233,7 +235,7 @@ const HomePage: NextPage = () => {
                                 <Button onClick={startAnimation}>Play</Button>
                                 <Button onClick={stopAnimation}>Pause</Button>
                                 <Button onClick={resetCanvas}>Reset</Button>
-                                <Button onClick={restartCanvas} variant="contained">Apply</Button>
+                                <Button onClick={apply} variant="contained">Apply</Button>
                             </ButtonGroup>
                         </Grid>
                     </Grid>
