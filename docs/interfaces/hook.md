@@ -15,7 +15,7 @@
 
 • **callback**: [*VoidCallback*](../README.md#voidcallback)
 
-Defined in: [pixel-art.ts:36](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L36)
+Defined in: [pixel-art.ts:36](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L36)
 
 ___
 
@@ -23,4 +23,4 @@ ___
 
 • **type**: [*HookType*](../README.md#hooktype)
 
-Defined in: [pixel-art.ts:35](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L35)
+Defined in: [pixel-art.ts:35](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L35)

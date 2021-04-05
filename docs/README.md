@@ -27,7 +27,7 @@
 
 Ƭ **ArtType**: *mosaic* \| *pointillism*
 
-Defined in: [pixel-art.ts:41](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L41)
+Defined in: [pixel-art.ts:41](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L41)
 
 ___
 
@@ -35,7 +35,7 @@ ___
 
 Ƭ **HookType**: *initialize* \| *beforeDraw* \| *afterDraw*
 
-Defined in: [pixel-art.ts:39](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L39)
+Defined in: [pixel-art.ts:39](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L39)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 Ƭ **RGBFormat**: [*number*, *number*, *number*]
 
-Defined in: [pixel-art.ts:32](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L32)
+Defined in: [pixel-art.ts:32](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L32)
 
 ___
 
@@ -57,4 +57,4 @@ ___
 
 **Returns:** *void*
 
-Defined in: [pixel-art.ts:25](https://github.com/divlook/pixel-art/blob/3e0c209/libs/pixel-art.ts#L25)
+Defined in: [pixel-art.ts:25](https://github.com/divlook/pixel-art/blob/ff74a1e/libs/pixel-art.ts#L25)
