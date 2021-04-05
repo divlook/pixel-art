@@ -1,3 +1,13 @@
+## [0.3.1](https://github.com/divlook/pixel-art/compare/v0.3.0...v0.3.1) (2021-04-05)
+
+
+### Bug Fixes
+
+* :bug: Apply 버튼 버그 수정 ([e09d37e](https://github.com/divlook/pixel-art/commit/e09d37eec1f51586fce24624e14775bbced7ac3d))
+* :bug: 일시정지 안되는 버그 수정 ([3435a4c](https://github.com/divlook/pixel-art/commit/3435a4c2abc312a8bd2e0e6297ad2517dd102dca))
+
+
+
 # [0.3.0](https://github.com/divlook/pixel-art/compare/v0.2.0...v0.3.0) (2021-04-04)
 
 
